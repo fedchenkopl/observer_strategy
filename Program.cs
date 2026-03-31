@@ -26,10 +26,6 @@ namespace observer_strategy
             return $"Metric: {MetricName}, Value: {Value} (Threshold: {Threshold})";
         }
     }
-
-    /// <summary>
-    /// Аргументы события
-    /// </summary>
     public class MetricEventArgs : EventArgs
     {
         public string EventType { get; }
@@ -42,12 +38,8 @@ namespace observer_strategy
         }
     }
 
-    // Делегат
     public delegate void MetricEventHandler(MetricEventArgs e);
 
-    /// <summary>
-    /// Субъект (Издатель)
-    /// </summary>
     public class EventMonitor
     {
         public event MetricEventHandler? OnMetricExceeded;
@@ -65,9 +57,6 @@ namespace observer_strategy
 
     // ==================== Паттерн Стратегия (Strategy) ====================
 
-    /// <summary>
-    /// Интерфейс стратегии форматирования
-    /// </summary>
     public interface IFormatStrategy
     {
         string Format(string message, DateTime timestamp);
@@ -99,9 +88,6 @@ namespace observer_strategy
 
     // ==================== Паттерн Шаблонный метод (Template Method) ====================
 
-    /// <summary>
-    /// Абстрактный базовый класс
-    /// </summary>
     public abstract class EventHandlerBase
     {
         protected IFormatStrategy _formatStrategy;
@@ -132,9 +118,6 @@ namespace observer_strategy
         }
     }
 
-    /// <summary>
-    /// Конкретный класс - вывод в консоль
-    /// </summary>
     public class ConsoleHandler : EventHandlerBase
     {
         public ConsoleHandler(IFormatStrategy strategy) : base(strategy) { }
@@ -152,9 +135,6 @@ namespace observer_strategy
         }
     }
 
-    /// <summary>
-    /// Конкретный класс - запись в файл
-    /// </summary>
     public class FileHandler : EventHandlerBase
     {
         private readonly string _filePath = "events.log";
@@ -174,8 +154,6 @@ namespace observer_strategy
             Console.WriteLine($"[FileHandler]: Written to {_filePath}");
         }
     }
-
-    // ==================== Демонстрация ====================
 
     class Program
     {
